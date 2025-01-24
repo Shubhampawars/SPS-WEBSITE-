@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Code Request Website</title>
+  <style>
+    /* CSS for Styling */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to bottom, #6a11cb, #2575fc);
+      color: white;
+      text-align: center;
+    }
+
+    header {
+      padding: 20px;
+      background-color: #444;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+    }
+
+    .container {
+      padding: 20px;
+    }
+
+    .btn {
+      display: inline-block;
+      margin: 20px;
+      padding: 15px 30px;
+      font-size: 1rem;
+      color: white;
+      background: linear-gradient(to right, #ff6a00, #ee0979);
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .friend-list {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .friend {
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .friend img {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .friend img:hover {
+      transform: scale(1.1);
+      box-shadow: 0 10px 25px rgba(255, 255, 255, 0.3);
+    }
+
+    textarea {
+      width: 80%;
+      max-width: 600px;
+      height: 200px;
+      padding: 15px;
+      font-size: 1rem;
+      border-radius: 10px;
+      margin: 20px auto;
+      border: none;
+      resize: none;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    }
+
+    textarea:focus {
+      outline: none;
+      box-shadow: 0 10px 20px rgba(255, 255, 255, 0.4);
+    }
+
+    footer {
+      margin-top: 20px;
+      padding: 10px;
+      background: #222;
+      color: #aaa;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header Section -->
+  <header>
+    <h1>Code Request Website</h1>
+    <p>Select a Friend to Write Code for You</p>
+  </header>
+
+  <!-- Main Section -->
+  <div class="container">
+    <!-- Request Code Button -->
+    <button class="btn" id="select-friend-btn">Select a Friend</button>
+
+    <!-- Friend Selection Section -->
+    <div id="friend-section" class="hidden">
+      <h2>Select a Friend:</h2>
+      <div class="friend-list">
+        <!-- Friend 1 -->
+        <div class="friend" onclick="selectFriend('Alice')">
+          <img src="images/alice.jpg" alt="Alice">
+          <p>Alice (Python, JavaScript)</p>
+        </div>
+        <!-- Friend 2 -->
+        <div class="friend" onclick="selectFriend('Bob')">
+          <img src="images/bob.jpg" alt="Bob">
+          <p>Bob (Java, C++)</p>
+        </div>
+        <!-- Friend 3 -->
+        <div class="friend" onclick="selectFriend('Charlie')">
+          <img src="images/charlie.jpg" alt="Charlie">
+          <p>Charlie (HTML, CSS)</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Code Request Form -->
+    <div id="form-section" class="hidden">
+      <h2>Describe Your Code</h2>
+      <p id="selected-friend"></p>
+      <textarea id="task" placeholder="Describe the code you need in detail..."></textarea>
+      <br>
+      <button class="btn" id="generate-btn">Generate Code</button>
+    </div>
+
+    <!-- Animation Section -->
+    <div id="animation-section" class="hidden">
+      <h2>Generating Your Code...</h2>
+      <img src="https://media.giphy.com/media/3o7abKhOpu0NwenH3O/giphy.gif" alt="Typing Animation" width="200">
+    </div>
+
+    <!-- Display Generated Code -->
+    <div id="code-display" class="hidden">
+      <h2>Your Generated Code:</h2>
+      <div id="code-result"></div>
+    </div>
+  </div>
+
+  <!-- Footer Section -->
+  <footer>
+    &copy; 2025 Code Request Website | Designed by You
+  </footer>
+
+  <!-- JavaScript for Interactivity -->
+  <script>
+    const selectFriendBtn = document.getElementById('select-friend-btn');
+    const friendSection = document.getElementById('friend-section');
+    const formSection = document.getElementById('form-section');
+    const animationSection = document.getElementById('animation-section');
+    const codeDisplay = document.getElementById('code-display');
+    const codeResult = document.getElementById('code-result');
+    const selectedFriend = document.getElementById('selected-friend');
+
+    let friendName = '';
+
+    // Show friend selection section
+    selectFriendBtn.addEventListener('click', () => {
+      friendSection.classList.remove('hidden');
+    });
+
+    // Handle friend selection
+    function selectFriend(name) {
+      friendName = name;
+      friendSection.classList.add('hidden');
+      formSection.classList.remove('hidden');
+      selectedFriend.textContent = `Selected Friend: ${friendName}`;
+    }
+
+    // Handle code generation
+    document.getElementById('generate-btn').addEventListener('click', () => {
+      const task = document.getElementById('task').value;
+
+      if (task.trim() === '') {
+        alert('Please describe the task!');
+        return;
+      }
+
+      formSection.classList.add('hidden');
+      animationSection.classList.remove('hidden');
+
+      // Simulate "writing code" animation
+      setTimeout(() => {
+        animationSection.classList.add('hidden');
+        codeDisplay.classList.remove('hidden');
+
+        // Example AI-generated code
+        const exampleCode = `/* Example Code for Your Request */\nfunction example() {\n    console.log("Hello, World!");\n}`;
+        codeResult.textContent = exampleCode;
+      }, 3000);
+    });
+  </script>
+</body>
+</html>
